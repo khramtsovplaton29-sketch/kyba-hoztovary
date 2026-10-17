@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Куба — прайс-лист</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px 16px;
+      font-family: Arial, sans-serif;
+      background: #f3f5f7;
+      color: #202832;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+    }
+    header {
+      padding: 24px;
+      background: #173b2b;
+      color: white;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    h1 { margin: 0 0 8px; }
+    header p { margin: 0; color: #d7e7dc; }
+    input {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid #ccd3d9;
+      border-radius: 10px;
+      font-size: 16px;
+      background: white;
+      margin-bottom: 14px;
+    }
+    #count { color: #606b75; margin: 12px 0; }
+    .item {
+      background: white;
+      padding: 16px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      border: 1px solid #e1e5e8;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .name { font-weight: 600; }
+    .category { color: #697580; font-size: 13px; margin-top: 5px; }
+    .price { font-weight: 700; white-space: nowrap; }
+    footer { color: #697580; font-size: 13px; margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>КУБА</h1>
+      <p>Крепёж • Хозтовары • Строительные материалы</p>
+    </header>
+
+    <input id="search" type="search"
+      placeholder="🔎 Найти товар: черенок, саморез, гвоздь..."
+      autocomplete="off">
+
+    <div id="count"></div>
+    <section id="products"></section>
+
+    <footer>
+      Демоверсия прайса. Цены и товары ниже — примеры.
+    </footer>
+  </main>
+
+  <script>
+    const goods = [
+      {name: "Саморезы", category: "Крепёж", price: "Уточнить"},
+      {name: "Гвозди", category: "Крепёж", price: "Уточнить"},
+      {name: "Черенок деревянный", category: "Хозтовары", price: "Уточнить"},
+      {name: "Дюбели", category: "Крепёж", price: "Уточнить"},
+      {name: "Болты и гайки", category: "Крепёж", price: "Уточнить"},
+      {name: "Шайбы", category: "Крепёж", price: "Уточнить"},
+      {name: "Ручной инструмент", category: "Инструменты", price: "Уточнить"},
+      {name: "Строительные перчатки", category: "Хозтовары", price: "Уточнить"}
+    ];
+
+    const search = document.getElementById("search");
+    const products = document.getElementById("products");
+    const count = document.getElementById("count");
+
+    function render() {
+      const query = search.value.trim().toLowerCase();
+      const filtered = goods.filter(item =>
+        (item.name + " " + item.category).toLowerCase().includes(query)
+      );
+
+      count.textContent = "Найдено товаров: " + filtered.length;
+
+      products.innerHTML = filtered.length
+        ? filtered.map(item => `
+          <article class="item">
+            <div>
+              <div class="name">${item.name}</div>
+              <div class="category">${item.category}</div>
+            </div>
+            <div class="price">${item.price}</div>
+          </article>
+        `).join("")
+        : "<p>Ничего не найдено. Попробуйте другое название.</p>";
+    }
+
+    search.addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>
